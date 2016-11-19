@@ -12,37 +12,38 @@ var Index = {
 	clientSecret: '05982600e19eccce5b3accdc2bb77143',
 	responseType: 'token',
 	redirectURI: 'http://athena.fhict.nl/users/i311336/allStuff/Minor/HeartRateTracker/',
-	scope: 'activity',
+	scope: 'activity%20nutrition%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight',
 
 	init: function(){
 
 		var $self = this;
 
 		// Load the Visualization API and the corechart package.
-		google.charts.load('current', {'packages':['corechart']});
+		google.charts.load('current', {'packages':['line']});
 
 		// Get the access token and start processing (callback function).
-		$self.getAccessToken($processingFunc);
+		$self.getAccessToken(
 
-		var $processingFunc = function(){
+			function(){
 
-			fetch(
-				'https://api.fitbit.com/1/user/-/activities/heart/date/2016-03-19/1d/1sec/time/21:00/23:00.json',
-				{
-					headers: new Headers({
-						'Authorization': 'Bearer ' + $self.accessToken
-					}),
-					mode: 'cors',
-					method: 'GET'
-				}
-			).then($self.processResponse)
-				.then($self.processHeartRate)
-				.then($self.graphHeartRate)
-				.catch(function($error){
+				fetch(
+					'https://api.fitbit.com/1/user/-/activities/heart/date/today/1d.json',
+					{
+						headers: new Headers({
+							'Authorization': 'Bearer ' + $self.accessToken
+						}),
+						mode: 'cors',
+						method: 'GET'
+					}
+				).then($self.processResponse)
+					.then($self.processHeartRate)
+					.then($self.graphHeartRate)
+					.catch(function($error){
 
-					console.error($error);
-				});
-		};
+						console.error($error);
+					});
+			}
+		);
 	},
 
 	getAccessToken: function($callback){
@@ -61,9 +62,7 @@ var Index = {
 				'&' +
 				'scope=' + $self.scope);
 
-			alert('got the access token');
-
-			$callback();
+			setTimeout($callback,3000);
 		}
 		else{
 
@@ -79,9 +78,7 @@ var Index = {
 
 			$self.accessToken = $fragmentQueryParameters.access_token;
 
-			alert('got the access token');
-
-			$callback();
+			setTimeout($callback,3000);
 		}
 	},
 
