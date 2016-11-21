@@ -7,12 +7,29 @@
 
 var Index = {
 
+	// Needed to get access to data.
 	accessToken: '',
+
+	// Needed to connect with the account.
 	clientId: '227Y8S',
 	clientSecret: '05982600e19eccce5b3accdc2bb77143',
+
+	// Well.. we need a token for now.
 	responseType: 'token',
+
+	// Redirect to the same page.
 	redirectURI: 'http://athena.fhict.nl/users/i311336/allStuff/Minor/HeartRateTracker/',
+
+	// What information we need to be provided with.
 	scope: 'activity%20nutrition%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight',
+
+	/**
+	 * Loads the Google Charts API,
+	 * Makes a request to get the access token,
+	 * Then there is a call stack (look below for info)...
+	 *
+	 * @return void
+	 */
 
 	init: function(){
 
@@ -40,18 +57,28 @@ var Index = {
 					.then($self.graphHeartRate)
 					.catch(function($error){
 
-						console.error($error);
+						console.error('Index.init(): ' + $error);
 					});
 			}
 		);
 	},
 
+	/**
+	 * Tries to get an access token.
+	 *
+	 * @param $callback - What do to after the access token is granted.
+	 *
+	 * @return void
+	 */
+
 	getAccessToken: function($callback){
 
 		var $self = this;
 
+		// Check if there is access token already granted.
 		if(!window.location.hash){
 
+			// If yes, authorize me.
 			window.location.replace('https://www.fitbit.com/oauth2/authorize' +
 				'?' +
 				'response_type=' + $self.responseType +
@@ -62,10 +89,12 @@ var Index = {
 				'&' +
 				'scope=' + $self.scope);
 
+			// Call the callback function, when you think it's safe to do so (3sec delay).
 			setTimeout($callback,3000);
 		}
 		else{
 
+			// There is an access token granted already.
 			var $fragmentQueryParameters = {};
 
 			window.location.hash.slice(1).replace(
@@ -76,56 +105,88 @@ var Index = {
 				}
 			);
 
+			// Set my access token.
 			$self.accessToken = $fragmentQueryParameters.access_token;
 
+			// Call the callback function, when you think it's safe to do so.
 			setTimeout($callback,3000);
 		}
 	},
 
+	/**
+	 * Processes the response received.
+	 *
+	 * @param $res
+	 *
+	 * @returns {*}|null
+	 */
+
 	processResponse: function($res){
 
+		// Check if everything went fine.
 		if(!$res.ok){
 
-			console.error('Fitbit API request failed: ' + $res);
+			console.error('Index.processResponse(): Fitbit API request failed: ' + $res);
 		}
 
 		var $contentType = $res.headers.get('content-type');
 
 		if($contentType && $contentType.indexOf('application/json') !== -1){
 
+			// We are safe.
 			return $res.json();
 		}
 		else{
 
-			console.error('JSON expected but received ' + $contentType);
+			// Well.. shit happens.
+			console.error('Index.processResponse(): JSON expected but received ' + $contentType);
 		}
+
+		return null;
 	},
+
+	/**
+	 * Process the heart rate returned.
+	 *
+	 * @param $timeSeries
+	 *
+	 * @returns {*|Array}
+	 */
 
 	processHeartRate: function($timeSeries){
 
 		return $timeSeries['activities-heart-intraday']
 			.dataset
 			.map(
-			function($measurement){
+				function($measurement){
 
-				return [
-						$measurement
-							.time
-							.split(':')
-							.map(
-								function($timeSegment){
+					return [
+							$measurement
+								.time
+								.split(':')
+								.map(
+									function($timeSegment){
 
-									return Number.parseInt($timeSegment);
-								}
-							),
-							$measurement.value
-						];
-			}
-		);
+										return Number.parseInt($timeSegment);
+									}
+								),
+								$measurement.value
+							];
+				}
+			);
 	},
+
+	/**
+	 * Draw the chart.
+	 *
+	 * @param $timeSeries
+	 *
+	 * @return void
+	 */
 
 	graphHeartRate: function($timeSeries){
 
+		// Log the data, so I can see it.
 		console.log($timeSeries);
 
 		var $data = new google.visualization.DataTable();
