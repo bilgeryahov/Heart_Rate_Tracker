@@ -12,7 +12,6 @@ var Index = {
 
 	// Needed to connect with the account.
 	clientId: '227Y8S',
-	clientSecret: '05982600e19eccce5b3accdc2bb77143',
 
 	// Well.. we need a token for now.
 	responseType: 'token',
@@ -26,7 +25,7 @@ var Index = {
 	/**
 	 * Loads the Google Charts API,
 	 * Makes a request to get the access token,
-	 * Then there is a call stack (look below for info)...
+	 * Then there is a call stack (look below for more info).
 	 *
 	 * @return void
 	 */
