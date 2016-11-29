@@ -16,8 +16,7 @@ var Index = {
 	// Well.. we need a token for now.
 	responseType: 'token',
 
-	// Redirect to the same page.
-	// Change this when needed.
+	// Redirect to the same page (change when needed!).
 	redirectURI: 'http://localhost:63342/Heart_Rate_Tracker/public/index.html',
 
 	// What information we need to be provided with.
