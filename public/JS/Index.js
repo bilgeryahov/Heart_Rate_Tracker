@@ -17,7 +17,8 @@ var Index = {
 	responseType: 'token',
 
 	// Redirect to the same page.
-	redirectURI: 'http://athena.fhict.nl/users/i311336/allStuff/Minor/HeartRateTracker/',
+	// Change this when needed.
+	redirectURI: 'http://localhost:63342/Heart_Rate_Tracker/public/index.html',
 
 	// What information we need to be provided with.
 	scope: 'activity%20nutrition%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight',
