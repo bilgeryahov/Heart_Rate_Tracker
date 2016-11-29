@@ -11,7 +11,7 @@ var Index = {
 	accessToken: '',
 
 	// Needed to connect with the account.
-	clientId: '227Y8S',
+	clientId: '227YMN',
 
 	// Well.. we need a token for now.
 	responseType: 'token',
