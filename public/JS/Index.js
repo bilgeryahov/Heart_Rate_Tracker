@@ -43,7 +43,7 @@ var Index = {
 			function(){
 
 				fetch(
-					'https://api.fitbit.com/1/user/-/activities/heart/date/today/1d.json',
+					'https://api.fitbit.com/1/user/-/activities/heart/date/2016-11-30/1d.json',
 					{
 						headers: new Headers({
 							'Authorization': 'Bearer ' + $self.accessToken
