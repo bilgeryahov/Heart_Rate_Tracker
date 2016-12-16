@@ -8,35 +8,31 @@
 var SmartWatch = {
 
 	_thumbUp: {},
-	_thumbDown: {},
 	_everythingFine: {},
 
 	init: function(){
 
 		let $self = this;
 
-		// Get the thumb up and thumb down from the page.
-		$self._thumbUp = $('ThumbUp');
+		// Get the thumb down from the page.
 		$self._thumbDown = $('ThumbDown');
 
-		// Go through defensive checks.
-		if(!$self._thumbDown || !$self._thumbUp){
+		// Go through defensive check.
+		if(!$self._thumbDown){
 
-			console.error('SmartWach.init(): One of the thumbs is not found. Abort.');
+			console.error('SmartWach.init(): The thumb down is not found. Abort.');
 			return;
 		}
 
-		// Attach events.
-		$self._thumbUp.addEvent('click', function(){
-
-			// Do stuff.
-		});
-
+		// Attach event.
 		$self._thumbDown.addEvent('click', function(){
 
 			// Show message that everything is fine.
 			$self.showMessageFine();
 		});
+
+		// Initialize the scrolling effect.
+		new Fx.SmoothScroll({ duration:700 }, window);
 	},
 
 	showMessageFine: function(){
