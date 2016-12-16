@@ -209,5 +209,5 @@ var Index = {
 
 document.addEvent('domready', function(){
 
-	Index.init();
+	// Index.init();
 });
