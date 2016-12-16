@@ -8,31 +8,37 @@
 var SmartWatch = {
 
 	_thumbUp: {},
+	_thumbDown: {},
 	_everythingFine: {},
+	_scrollTo: {},
 
 	init: function(){
 
 		let $self = this;
 
-		// Get the thumb down from the page.
+		// Get the thumbs from the page.
 		$self._thumbDown = $('ThumbDown');
+		$self._thumbUp = $('ThumbUp');
 
-		// Go through defensive check.
-		if(!$self._thumbDown){
+		// Go through defensive checks.
+		if(!$self._thumbDown || !$self._thumbUp){
 
-			console.error('SmartWach.init(): The thumb down is not found. Abort.');
+			console.error('SmartWach.init(): One of the thumbs is not found. Abort.');
 			return;
 		}
 
-		// Attach event.
+		// Attach events.
 		$self._thumbDown.addEvent('click', function(){
 
 			// Show message that everything is fine.
 			$self.showMessageFine();
 		});
 
-		// Initialize the scrolling effect.
-		new Fx.SmoothScroll({ duration:700 }, window);
+		$self._thumbUp.addEvent('click', function(){
+
+			// Scroll to the needed Div.
+			$self.scrollToDiv();
+		});
 	},
 
 	showMessageFine: function(){
@@ -49,6 +55,21 @@ var SmartWatch = {
 
 		// Show the message.
 		$self._everythingFine.className = $self._everythingFine.className.replace(' w3-hide', '');
+	},
+
+	scrollToDiv: function(){
+
+		let $self = this;
+
+		$self._scrollTo = $('ScrollTo');
+		if(!$self._scrollTo){
+
+			console.error('SmartWatch.scrollToDiv(): The div to scroll is not found!');
+			return;
+		}
+
+		// Scroll, maaan!
+		new Fx.Scroll(window).toElement($self._scrollTo);
 	}
 };
 
