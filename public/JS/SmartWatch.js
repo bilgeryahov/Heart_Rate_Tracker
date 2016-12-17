@@ -147,7 +147,7 @@ var SmartWatch = {
 		// Verify that there are only digits.
 		if(isNaN(($self._textInput.value).toInt())){
 
-			alert('Enter a two-digit number!');
+			alert('Enter a two-digit number.');
 			console.error('SmartWatch.sendDetails(): The user entered not a number!');
 			return;
 		}
@@ -155,7 +155,7 @@ var SmartWatch = {
 		// Get the text input.
 		localStorage.setItem('levelOfDistraction', $self._textInput.value.toString());
 
-		alert('Your details are sent!');
+		alert('Your details are sent.');
 		$self._textInput.value = '';
 	}
 };

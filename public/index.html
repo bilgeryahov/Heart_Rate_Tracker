@@ -7,7 +7,8 @@
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<script type="text/javascript" src="./JS/Vendor/MooTools-Core-1.6.0.js"></script>
 	<script type="text/javascript" src="./JS/Vendor/MooTools-More-1.6.0.js"></script>
-	<script type="text/javascript" src="./JS/Index.js"></script>
+	<script type="text/javascript" src="./JS/Vendor/handlebars-v4.0.5.js"></script>
+	<script type="text/javascript" src="./JS/HandleNewInput.js"></script>
 	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 </head>
 <body>
@@ -23,7 +24,16 @@
 	<br/>
 	<br/>
 	<br/>
+
+	<button id="Update" class="w3-btn w3-red" style="width: 50%; margin: auto; display: block;">Update</button>
+
+
 	<div class="w3-container w3-padding-16">
+
+		<div id = "PersonPlaceholder">
+
+		</div>
+
 		<div class="w3-row">
 			<div class="w3-col s3">
 				<img class="w3-circle" src="Images/avatar_man.png" style="width:100%">
@@ -94,10 +104,38 @@
 	</div>
 
 	<footer class="w3-container w3-red">
-		<h3>Three Step</h3>
+		<h3>ThreeStep</h3>
 	</footer>
 
 </div>
+
+<script id="PersonTemplate" type="text/x-handlebars-template">
+	<div class="w3-row">
+		<div class="w3-col s3">
+			<img class="w3-circle" src="Images/avatar_man.png" style="width:100%">
+		</div>
+		<div class="w3-col s3 w3-container">
+			<h3 class="w3-text-red">Tester</h3>
+			<p>Room 1</p>
+		</div>
+		<div class="w3-col s3">
+			{{#if Sound}}
+			<img src="Images/sound.svg" style="width:100%; padding: 1.5rem;">
+			{{else}} {{#if People}}
+			<img src="Images/people.svg" style="width:100%; padding: 1.5rem;">
+			{{else}} {{#if Light}}
+			<img src="Images/light.svg" style="width:100%; padding: 1.5rem;">
+			{{else}}
+			<img src="Images/phone.svg" style="width:100%; padding: 1.5rem;">
+			{{/if}}{{/if}}{{/if}}
+		</div>
+		<div class="w3-col s3 w3-container">
+			<h3 class="w3-text-red">{{levelOfDistraction}}</h3>
+			<p>Stressed</p>
+		</div>
+	</div>
+	<hr>
+</script>
 
 </body>
 </html>
