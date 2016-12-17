@@ -5,10 +5,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1"/>
 	<title>Dashboard</title>
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
 	<script type="text/javascript" src="./JS/Vendor/MooTools-Core-1.6.0.js"></script>
 	<script type="text/javascript" src="./JS/Vendor/MooTools-More-1.6.0.js"></script>
 	<script type="text/javascript" src="./JS/Vendor/handlebars-v4.0.5.js"></script>
 	<script type="text/javascript" src="./JS/HandleNewInput.js"></script>
+	<script type="text/javascript" src="./JS/Firebase.js"></script>
 	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 </head>
 <body>
@@ -130,7 +132,7 @@
 			{{/if}}{{/if}}{{/if}}
 		</div>
 		<div class="w3-col s3 w3-container">
-			<h3 class="w3-text-red">{{levelOfDistraction}}</h3>
+			<h3 class="w3-text-red">{{levelOfDistraction}}%</h3>
 			<p>Stressed</p>
 		</div>
 	</div>

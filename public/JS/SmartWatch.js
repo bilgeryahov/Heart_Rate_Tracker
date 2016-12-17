@@ -136,13 +136,38 @@ var SmartWatch = {
 		// Scroll, maaan!
 		new Fx.Scroll(window).toElement($self._fillIn);
 
-		// Set this in the local store, so you can retrieve it later.
-		localStorage.setItem('distraction', $id.toString());
+		// Verify that FirebaseEngine is present object.
+		if(!FirebaseEngine){
+
+			console.error('SmartWatch.sendDetails(): FirebaseEngine is not present! Aborting!');
+			return;
+		}
+
+		/*
+		 * First construct the object to be sent.
+		 * Then construct the path.
+		 * Then try to send to the Firebase Real Time Database.
+		 */
+
+		let $obj = {
+			'distraction': $id.toString()
+		};
+
+		let $path = 'distraction';
+
+		FirebaseEngine.saveData($path, $obj);
 	},
 
 	sendDetails: function(){
 
 		let $self = this;
+
+		// Verify that FirebaseEngine is present object.
+		if(!FirebaseEngine){
+
+			console.error('SmartWatch.sendDetails(): FirebaseEngine is not present! Aborting!');
+			return;
+		}
 
 		// Verify that there are only digits.
 		if(isNaN(($self._textInput.value).toInt())){
@@ -152,9 +177,21 @@ var SmartWatch = {
 			return;
 		}
 
-		// Get the text input.
-		localStorage.setItem('levelOfDistraction', $self._textInput.value.toString());
+		/*
+		 * First construct the object to be sent.
+		 * Then construct the path.
+		 * Then try to send to the Firebase Real Time Database.
+		 */
 
+		let $obj = {
+			'levelOfDistraction': ($self._textInput.value).toInt()
+		};
+
+		let $path = 'levelOfDistraction';
+
+		FirebaseEngine.saveData($path, $obj);
+
+		// Done!
 		alert('Your details are sent.');
 		$self._textInput.value = '';
 	}

@@ -39,36 +39,71 @@ var HandleNewInput = {
 
 		$self._update.addEvent('click', function(){
 
-			$self.loadFromLocalStorage();
+			$self.loadData();
 		});
 	},
 
-	loadFromLocalStorage: function(){
+	loadData: function(){
 
 		let $self = this;
-		$self._distraction = localStorage.getItem('distraction');
-		$self._levelOfDistraction = localStorage.getItem('levelOfDistraction');
 
-		if(!$self._distraction || !$self._levelOfDistraction) {
+		// Verify that FirebaseEngine is present object.
+		if(!FirebaseEngine){
 
-			// There is nothing in the local storage yet. Bail out!
-			alert('There is no new data.');
+			console.error('SmartWatch.sendDetails(): FirebaseEngine is not present! Aborting!');
 			return;
 		}
 
-		// Okay we have data. Show the new person.
-		var $compiled = Handlebars.compile($self._personTemplate.get('html'));
+		// This will be a callback when the second call to the DB is made.
+		let $completeEnd = function(){
 
-		// Let's build the new object.
-		let obj  = {
-			levelOfDistraction: $self._levelOfDistraction
+			// Check if the default values are overriden.
+			if($self._distraction === '' || !$self._levelOfDistraction === 0){
+
+				// Nothing new! Bail out!
+				alert('There is no new data.');
+				return;
+			}
+
+			// Okay we have data. Show the new person.
+			var $compiled = Handlebars.compile($self._personTemplate.get('html'));
+
+			// Let's build the new object.
+			let obj  = {
+				levelOfDistraction: $self._levelOfDistraction
+			};
+
+			// Let's add the distraction.
+			obj[$self._distraction] = true;
+
+			// Try it!
+			$self._personPlaceholder.set('html', $compiled(obj));
 		};
 
-		// Let's add the distraction.
-		obj[$self._distraction] = true;
+		let $secondFetch = function () {
 
-		// Try it!
-		$self._personPlaceholder.set('html', $compiled(obj));
+			FirebaseEngine.fetchData('levelOfDistraction', function($data){
+
+				if($data.hasOwnProperty('levelOfDistraction')){
+
+					// Good to go!
+					$self._levelOfDistraction = $data['levelOfDistraction'];
+
+					$completeEnd();
+				}
+			});
+		};
+
+		FirebaseEngine.fetchData('distraction', function($data){
+
+			if($data.hasOwnProperty('distraction')){
+
+				// Good to go!
+				$self._distraction = $data['distraction'];
+
+				$secondFetch();
+			}
+		});
 	}
 };
 
