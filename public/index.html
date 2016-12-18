@@ -4,7 +4,9 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1"/>
 	<title>Dashboard</title>
+	<!-- Google Charts for the Fitbit graph -->
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<!-- Not in use right now -->
 	<script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
 	<script type="text/javascript" src="./JS/Vendor/MooTools-Core-1.6.0.js"></script>
 	<script type="text/javascript" src="./JS/Vendor/MooTools-More-1.6.0.js"></script>
@@ -18,10 +20,9 @@
 <div class="w3-light-grey" style="position:relative;">
 
 	<header class="w3-container w3-red" style="position: fixed; width: 100%;">
-		<h1>
-			Dashboard
-		</h1>
+		<h1>Dashboard</h1>
 	</header>
+
 	<br/>
 	<br/>
 	<br/>
@@ -29,11 +30,9 @@
 
 	<button id="Update" class="w3-btn w3-red" style="width: 50%; margin: auto; display: block;">Update</button>
 
-
 	<div class="w3-container w3-padding-16">
 
 		<div id = "PersonPlaceholder">
-
 		</div>
 
 		<div class="w3-row">
@@ -52,7 +51,8 @@
 				<p>Stressed</p>
 			</div>
 		</div>
-		<hr>
+		<hr/>
+
 		<div class="w3-row">
 			<div class="w3-col s3">
 				<img class="w3-circle" src="Images/avatar_woman.png" style="width:100%">
@@ -69,7 +69,8 @@
 				<p>Stressed</p>
 			</div>
 		</div>
-		<hr>
+		<hr/>
+
 		<div class="w3-row">
 			<div class="w3-col s3">
 				<img class="w3-circle" src="Images/avatar_man.png" style="width:100%">
@@ -87,6 +88,7 @@
 			</div>
 		</div>
 		<hr/>
+
 		<div class="w3-row">
 			<div class="w3-col s3">
 				<img class="w3-circle" src="Images/avatar_woman.png" style="width:100%">
@@ -103,6 +105,7 @@
 				<p>Stressed</p>
 			</div>
 		</div>
+
 	</div>
 
 	<footer class="w3-container w3-red">
@@ -136,7 +139,7 @@
 			<p>Stressed</p>
 		</div>
 	</div>
-	<hr>
+	<hr/>
 </script>
 
 </body>

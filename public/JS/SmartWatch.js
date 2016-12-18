@@ -1,25 +1,45 @@
 /**
  * @file SmartWatch.js
  *
+ * Handles the actions going on the smart watch interface.
+ *
+ *
  * @author Bilger Yahov <bayahov1@gmail.com>
  * @version 1.0.0
  */
 
 var SmartWatch = {
 
+	// The thumbs that you see on the page.
 	_thumbUp: {},
 	_thumbDown: {},
+
+	// Everything is fine text.
 	_everythingFine: {},
+
+	// Second div, where you see the options (distractions).
 	_scrollTo: {},
-	_fillIn: {},
-	_sendButton: {},
-	_textInput: {},
 
 	// Distractions
 	_phone: {},
 	_people: {},
 	_sound: {},
 	_light: {},
+
+	// Fill in percentages div for the level of distraction
+	_fillIn: {},
+
+	// Controls for the bottom div (sending info Div).
+	_sendButton: {},
+	_textInput: {},
+
+	/**
+	 * Initializes the main functionality. Mainly gets elements from the page,
+	 * goes through defensive checks to make sure that nothing breaks and attaches
+	 * the needed events for each control.
+	 *
+	 * @return void
+	 */
 
 	init: function(){
 
@@ -45,7 +65,7 @@ var SmartWatch = {
 
 		$self._thumbUp.addEvent('click', function(){
 
-			// Scroll to the needed Div.
+			// Scroll distractions choice Div.
 			$self.scrollToDiv();
 		});
 
@@ -66,6 +86,7 @@ var SmartWatch = {
 		// Attach them events.
 		$$([$self._light, $self._people, $self._phone, $self._sound]).addEvent('click', function(){
 
+			// Pass the id, since it's the actual distarction.
 			$self.scrollToSending(this.id);
 		});
 
@@ -91,13 +112,22 @@ var SmartWatch = {
 		});
 	},
 
+	/**
+	 * Gets the 'everything is fine' message from the page, makes sure that it's there.
+	 * Displays it when the function is called.
+	 *
+	 * @return void
+	 */
+
 	showMessageFine: function(){
 
 		let $self = this;
 
+		// Get me.
 		$self._everythingFine = $('EverythingFine');
 		if(!$self._everythingFine){
 
+			// Check me. (Sounds sexy ?)
 			console.error('SmartWatch.showMessageFine(): everything is fine message is not ' +
 				'present at the page');
 			return;
@@ -107,13 +137,25 @@ var SmartWatch = {
 		$self._everythingFine.className = $self._everythingFine.className.replace(' w3-hide', '');
 	},
 
+	/**
+	 * Well, pretty explanatory name, isn't it?
+	 *
+	 * Gets the choice Div from the page, goes through a defensive check and
+	 * makes sure whenever this function is called, the page automatically
+	 * scrolls to this particular div.
+	 *
+	 * @return void
+	 */
+
 	scrollToDiv: function(){
 
 		let $self = this;
 
+		// Get me.
 		$self._scrollTo = $('ScrollTo');
 		if(!$self._scrollTo){
 
+			// Check me. Oh yes.
 			console.error('SmartWatch.scrollToDiv(): The div to scroll is not found!');
 			return;
 		}
@@ -122,13 +164,32 @@ var SmartWatch = {
 		new Fx.Scroll(window).toElement($self._scrollTo);
 	},
 
+	/**
+	 * Gets the last div of the page. The one where percentages are filled in.
+	 * Goes through a defensive check and makes sure that it's on place.
+	 *
+	 * Scrolls to this particular div.
+	 *
+	 * Makes sure that FirebaseEngine is a present object, so we don't break anything
+	 * while we think that we are smart.
+	 *
+	 * Then constructs the object to be sent to the real time database,
+	 * prepares the path and fires the sun. (What?)
+	 *
+	 * @param $id
+	 *
+	 * @return void
+	 */
+
 	scrollToSending: function($id){
 
 		let $self = this;
 
+		// Get me.
 		$self._fillIn = $('FillIn');
 		if(!$self._fillIn){
 
+			// Check me. Oh no.
 			console.error('SmartWatch.scrollToSending(): The div to send is not found!');
 			return;
 		}
@@ -145,7 +206,7 @@ var SmartWatch = {
 
 		/*
 		 * First construct the object to be sent.
-		 * Then construct the path.
+		 * Then prepare the path.
 		 * Then try to send to the Firebase Real Time Database.
 		 */
 
@@ -155,8 +216,19 @@ var SmartWatch = {
 
 		let $path = 'distraction';
 
+		// Brrrmmm brrrrrrrmmm....
 		FirebaseEngine.saveData($path, $obj);
 	},
+
+	/**
+	 * Checks again if the FirebaseEngine is present, not to break anything.
+	 * Verifies that the input value is a number.
+	 *
+	 * Then constructs the object to be sent to the real time database,
+	 * prepares the path and fires the sun. (What?)
+	 *
+	 * @return void
+	 */
 
 	sendDetails: function(){
 
@@ -193,10 +265,13 @@ var SmartWatch = {
 
 		// Done!
 		alert('Your details are sent.');
+
+		// Clear after yourself baby.
 		$self._textInput.value = '';
 	}
 };
 
+// Beauty.
 document.addEvent('domready', function(){
 
 	SmartWatch.init();

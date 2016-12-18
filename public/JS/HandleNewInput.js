@@ -1,19 +1,33 @@
 /**
  * @file HandleNewInput.js
  *
+ * Handles the new Person input to the page.
+ * Communicates with Firebase Real Time Database.
+ *
  * @author Bilger Yahov <bayahov1@gmail.com>
  * @version 1.0.0
  */
 
 var HandleNewInput = {
 
+	// Eventually are gotten from the Firebase Real Time Database
 	_distraction: '',
 	_levelOfDistraction: 0,
+
+	// Update button on the page.
 	_update: {},
 
 	// Templating stuff.
 	_personTemplate: {},
 	_personPlaceholder: {},
+
+	/**
+	 * Initializes the main functionality.
+	 * Gets elements from the page and makes sure that
+	 * they are present.
+	 *
+	 * @return void
+	 */
 
 	init: function(){
 
@@ -29,8 +43,10 @@ var HandleNewInput = {
 			return;
 		}
 
+		// Get the button.
 		$self._update = $('Update');
 
+		// Check that beauty.
 		if(!$self._update){
 
 			console.error('HandleNewInput.init(): Update button not found!');
@@ -42,6 +58,14 @@ var HandleNewInput = {
 			$self.loadData();
 		});
 	},
+
+	/**
+	 * @ATTENTION: Dangerous
+	 *
+	 * Well.. just read it.
+	 *
+	 * @return void
+	 */
 
 	loadData: function(){
 
@@ -80,8 +104,10 @@ var HandleNewInput = {
 			$self._personPlaceholder.set('html', $compiled(obj));
 		};
 
+		// After the first fetch is completed.
 		let $secondFetch = function () {
 
+			// Get the level of distraction.
 			FirebaseEngine.fetchData('levelOfDistraction', function($data){
 
 				if($data.hasOwnProperty('levelOfDistraction')){
@@ -89,11 +115,13 @@ var HandleNewInput = {
 					// Good to go!
 					$self._levelOfDistraction = $data['levelOfDistraction'];
 
+					// Finish it!
 					$completeEnd();
 				}
 			});
 		};
 
+		// Actually it all starts here...
 		FirebaseEngine.fetchData('distraction', function($data){
 
 			if($data.hasOwnProperty('distraction')){
@@ -101,6 +129,7 @@ var HandleNewInput = {
 				// Good to go!
 				$self._distraction = $data['distraction'];
 
+				// Continues here...
 				$secondFetch();
 			}
 		});
